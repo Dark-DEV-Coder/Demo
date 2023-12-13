@@ -1,0 +1,83 @@
+.avt {
+  cursor: pointer;
+
+  span {
+    font-family: 'Montserrat';
+    font-size  : 15px;
+    margin-top : 30px;
+    color      : white;
+  }
+}
+
+.avt-infor {
+  z-index         : 5;
+  position        : absolute;
+  background-color: #202C45;
+  border-radius   : 5px;
+
+  ul {
+    .container-information {
+      border-bottom: dashed 1px white;
+
+      .inf {
+        width          : 100%;
+        display        : flex;
+        justify-content: center;
+
+        span {
+          padding: 0.2rem 0 0 1rem;
+          color  : #f2f2f2;
+        }
+      }
+    }
+
+    li {
+      display        : flex;
+      justify-content: start;
+
+      svg {
+        color: #f2f2f2
+      }
+
+      a {
+        width         : 100%;
+        padding-top   : 5px;
+        padding-bottom: 5px;
+        color         : #f2f2f2;
+      }
+
+      .li-infor {
+        font-size: 18px;
+      }
+    }
+
+    li:hover {
+      background-color: white;
+
+      svg {
+        color: #202C45;
+      }
+
+      a {
+        color: #202C45;
+      }
+
+    }
+  }
+}
+
+@media (min-width: 992px) {
+  .avt-infor {
+    width: 15%;
+    left : 73%;
+    top  : 105%;
+  }
+}
+
+@media (max-width: 991px) {
+  .avt-infor {
+    width: 50%;
+    left : 28%;
+    top  : 101%;
+  }
+}

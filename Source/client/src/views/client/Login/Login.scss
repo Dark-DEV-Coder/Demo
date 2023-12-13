@@ -1,0 +1,205 @@
+.container-login-big {
+
+    // background-color: aquamarine;
+
+    .container-tb-login {
+        display              : flex;
+        justify-content      : start;
+        // margin-top        : 1.5%;
+        // padding-bottom    : 3%;
+        // height            : 50px;
+        // border-bottom  : solid 1px #202C45;
+        background-color     : #D9D9D9;
+
+        // h5 {
+        //     margin-top   : 5px;
+        //     font-size    : 22px;
+        //     margin-left  : 0.7%;
+        //     font-family  : 'Montserrat';
+        //     font-weight  : 600;
+        //     border-bottom: solid 3px #202C45;
+        //     height       : 35px;
+        // }
+    }
+
+    .container-login {
+        margin-top         : 2%;
+        display            : flex;
+        justify-content    : center;
+        margin-bottom      : 2%;
+        // background-color: antiquewhite;
+
+
+        .login {
+            // có right login
+            // width                 : 70%;
+            // background-color: tomato;
+
+
+            //không right login
+            // cái này là phải chỉnh width linh động tròn style.css trong phần respond @media 1200, 991.98
+            // width                 : 40%;
+            display               : flex;
+            justify-content       : start;
+            // border-left        : solid 6px #202C45;
+            // border-bottom      : solid 6px #202C45;
+
+            .login-left {
+                display                  : flex;
+                justify-content          : center;
+                // có right
+                // width              : 50%;
+                // border-left           : solid 6px #202C45;
+                // border-bottom         : solid 6px #202C45;
+                // không right
+                width                    : 100%;
+                border                   : solid 6px #202C45;
+
+                // background-color: coral;
+
+                form {
+                    width: 100%;
+
+                    .formsh {
+                        margin-top: 6%;
+                    }
+
+                    .btn2 {
+                        margin-top      : 3%;
+                        border-radius   : 5px;
+                        background-color: gainsboro;
+                        color           : #202C45;
+                        border          : 0;
+                        width           : 30%;
+                        margin-bottom   : 8%;
+                        padding         : 10px 0 10px 0;
+                        white-space     : nowrap;
+                        overflow        : hidden;
+                        text-overflow   : ellipsis;
+
+                        &.active {
+                            background-color: #202C45;
+                            color           : white;
+                        }
+                    }
+
+                    button[disabled=disabled],
+                    button:disabled {
+                        cursor: not-allowed;
+                    }
+
+                    .label-dky {
+                        margin    : auto;
+                        margin-top: -2%;
+
+                        .pass-mk:first-child {
+                            margin-left     : 2%;
+                            text-align      : start;
+                            font-family     : 'Montserrat';
+                            font-weight     : 200;
+                            // white-space  : nowrap;
+                            // overflow     : hidden;
+                            // text-overflow: ellipsis;
+                        }
+
+                        .pass-mk {
+                            text-align      : start;
+                            font-family     : 'Montserrat';
+                            font-weight     : 200;
+                            font-style      : italic;
+                            font-size       : 17px;
+                            // white-space  : nowrap;
+                            // overflow     : hidden;
+                            // text-overflow: ellipsis;
+                        }
+                    }
+
+                }
+
+                label {
+                    // margin-top    : 2%;
+                    // width         : 70%;
+                    // margin-left   : 7%;
+                    // margin-bottom : 0%;
+                    text-align       : start;
+                    font-family      : 'Montserrat';
+                    font-weight      : 600;
+                    font-size        : 18px;
+                    // color         : #202C45;
+                    // padding-bottom: 0px;
+                    // white-space   : nowrap;
+                    // overflow      : hidden;
+                    // text-overflow : ellipsis;
+                }
+
+                input {
+                    background-color   : #EFEDED;
+                    // width           : 65%;
+                    // margin-left     : 16%;
+                }
+            }
+
+            .login-right {
+
+                width: 50%;
+
+                border-bottom: solid 6px #202C45;
+
+                .right {
+                    height          : 100%;
+                    background-color: #202C45;
+                    display         : flex;
+                    justify-content : center;
+
+                    h3 {
+                        font-family: 'Montserrat';
+                        font-weight: 600;
+                        color      : white;
+                        margin-top : 28%;
+                    }
+                }
+            }
+        }
+
+
+    }
+}
+
+@media (min-width: 992px) {
+    .label-dky {
+        width          : 70%;
+        display        : flex;
+        justify-content: space-around;
+    }
+
+    .pass-mk {
+        width           : 60%;
+        margin-left     : 4%;
+        margin-top      : 0%;
+        text-align      : start;
+        font-family     : 'Montserrat';
+        font-weight     : 200;
+        // white-space  : nowrap;
+        // overflow     : hidden;
+        // text-overflow: ellipsis;
+    }
+}
+
+@media (max-width: 991px) {
+    .label-dky {
+        width          : 80%;
+        justify-content: start;
+    }
+
+    .pass-mk {
+        margin          : 0 !important;
+        padding         : 0 !important;
+        width           : 100% !important;
+        text-align      : start;
+        font-family     : 'Montserrat';
+        font-weight     : 200;
+        // white-space  : nowrap;
+        // overflow     : hidden;
+        // text-overflow: ellipsis;
+    }
+}

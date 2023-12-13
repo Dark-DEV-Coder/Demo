@@ -1,0 +1,63 @@
+.container-taikhoan {
+    font-family        : 'Montserrat';
+    // background-color: red;
+    width              : 85%;
+    margin             : auto;
+
+    .breadcrumb {
+        font-family: 'Montserrat';
+    }
+
+    .container-tk {
+        padding-bottom : 1rem;
+        display        : flex;
+        justify-content: space-between;
+
+        button {
+            padding: 0.5rem 1rem 0.5rem 1rem;
+        }
+
+        h3 {
+            font-family: 'Montserrat';
+            text-align : start;
+            font-weight: 600;
+        }
+
+
+    }
+
+    .inputDK {
+        width : 100% !important;
+        margin: 0 !important;
+    }
+
+    h5 {
+        text-align: start;
+    }
+
+    h3 {
+        text-align : start;
+        font-family: 'Montserrat';
+        text-align : start;
+        font-weight: 600;
+    }
+
+    .content-dkythuctap {
+        label {
+            text-align    : start;
+            // font-weight: 400;
+        }
+    }
+
+    .btntk {
+        background-color: #202C45;
+        margin          : auto;
+        margin-top      : 1rem;
+        margin-bottom   : 3rem;
+    }
+
+    .btntk:hover {
+        color     : #f2f2f2;
+        background: #344670;
+    }
+}

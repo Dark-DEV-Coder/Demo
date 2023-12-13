@@ -1,0 +1,40 @@
+.main2 {
+    font-family: 'Montserrat';
+}
+
+.form-new {
+    .btn {
+        background-color: var(--blue);
+
+        padding      : 0.8rem;
+        margin-top   : 1rem;
+        margin-bottom: 0;
+        font-size    : 18px;
+        font-weight  : 400;
+    }
+}
+
+.lb {
+    font-family: 'Montserrat';
+}
+
+.left {
+    h1 {
+        text-align: start !important;
+    }
+}
+
+.inputSV {
+    width : 100% !important;
+    margin: 0 !important;
+
+}
+
+.label-card {
+    margin: 0 !important;
+
+}
+
+.card-title2 {
+    text-align: start;
+}

@@ -1,0 +1,63 @@
+.container-dangky {
+    font-family        : 'Montserrat';
+    // background-color: red;
+    width              : 85%;
+    margin             : auto;
+
+    .breadcrumb {
+        font-family: 'Montserrat';
+    }
+
+    h3 {
+        font-family: 'Montserrat';
+        font-weight: 600;
+        text-align : start;
+    }
+
+    .content {
+
+        display     : flex;
+        justify-self: start;
+    }
+
+    .inputDK {
+        width : 100% !important;
+        margin: 0 !important;
+
+    }
+
+    h5 {
+        text-align: start;
+    }
+
+    .container-form {
+        width: 50%;
+    }
+
+    .container-list-detai {
+        padding-left: 2rem;
+        padding-top : 5rem;
+        width       : 50%;
+
+        .form-check-inline {
+            display: flex;
+        }
+
+        .inputDK {
+            font-size  : 18px;
+            font-weight: 400;
+        }
+
+        .form-check-input {
+            margin-top: 0.6rem
+        }
+
+        .inputDKK {
+            text-align: start;
+            width     : 100% !important;
+            margin    : 0 !important;
+        }
+    }
+
+
+}

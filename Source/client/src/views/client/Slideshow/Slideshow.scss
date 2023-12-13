@@ -1,0 +1,41 @@
+// .react-slideshow-wrapper {
+//   height: 510px;
+// }
+
+.react-slideshow-container+ul.indicators {
+  margin-top: 0px !important;
+  padding-top: 7px;
+}
+
+.react-slideshow-container {
+  .nav:first-of-type {
+    margin-left: 40px;
+
+    svg {
+      // margin-left: 5px;
+    }
+  }
+}
+
+.react-slideshow-container .nav:last-of-type {
+  margin-right: 40px;
+
+  svg {
+    margin-left: 3px;
+  }
+}
+
+.indicators {
+  // background-color: #202C45 ;
+}
+
+.each-slide {
+
+  .container-img {
+    img {
+      height: 100%;
+      width: 100%;
+      object-fit: fill;
+    }
+  }
+}

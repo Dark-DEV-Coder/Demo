@@ -1,0 +1,38 @@
+.row {
+    margin-top: -0.5rem;
+}
+
+.card-body2 {
+    .card-title2 {}
+
+    padding: 0;
+
+    h5 {
+        margin-top      : 10px;
+        font-family     : 'Montserrat';
+        font-size       : 15px;
+        font-weight     : 600;
+        color           : black;
+        // white-space  : nowrap;   
+        // overflow     : hidden;
+        // text-overflow: ellipsis;
+    }
+
+    .sl {
+        margin-top: 5px;
+    }
+
+
+}
+
+.card4 {
+    text-align: start;
+
+    .card-header {
+        margin-top : 10px;
+        font-family: 'Montserrat';
+        font-size  : 15px;
+        font-weight: 600;
+        color      : rgb(89, 89, 89);
+    }
+}
