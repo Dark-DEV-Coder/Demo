@@ -64,9 +64,9 @@ export { fetchDetailGiangVien };
 
 //Sửa thông tin Giảng viên
 const fetchEditGiangVien = (headers, MaGV, data) => {
-    for (const pair of data.entries()) {
-        console.log(pair[0] + ": " + pair[1]);
-    }
+    // for (const pair of data.entries()) {
+    //     console.log(pair[0] + ": " + pair[1]);
+    // }
     // console.log(data.HoGV)
     return axios.post(`admin/giang-vien/ChinhSua/${MaGV}`, data, { headers });
 }
@@ -141,9 +141,9 @@ export { fetchDetailChucNang };
 
 //Sửa  Chức Năng
 const fetchEditChucNang = (headers, MaCN, data) => {
-    for (const pair of data.entries()) {
-        console.log(pair[0] + ": " + pair[1]);
-    }
+    // for (const pair of data.entries()) {
+    //     console.log(pair[0] + ": " + pair[1]);
+    // }
     return axios.post(`admin/chuc-nang/ChinhSua/${MaCN}`, data, { headers });
 }
 export { fetchEditChucNang };
@@ -223,9 +223,9 @@ export { fetchDeleteSinhVien };
 
 //Import DSSV
 const fetchImportDSSVSinhVien = (headers, data) => {
-    for (const pair of data.entries()) {
-        console.log(pair[0] + ": " + pair[1]);
-    }
+    // for (const pair of data.entries()) {
+    //     console.log(pair[0] + ": " + pair[1]);
+    // }
     return axios.post(`admin/sinh-vien/importFileSV`, data, { headers });
 }
 export { fetchImportDSSVSinhVien };
@@ -332,10 +332,6 @@ export { fetchEditQuyenTK };
 
 //Thêm Quyền tài khoản
 const fetchAddQuyenTK = (headers, MaQTK, TenQuyenTK, MaCN, ChucNangCon) => {
-    console.log("API MaQTK : ", MaQTK)
-    console.log("API TenQuyenTK : ", TenQuyenTK)
-    console.log("API MaCN : ", MaCN)
-    console.log("API ChucNangCon : ", ChucNangCon)
     return axios.post(`admin/quyen-tai-khoan/Them`, {
         MaQTK: MaQTK,
         TenQuyenTK: TenQuyenTK,
@@ -401,9 +397,9 @@ export { fetchDeleteCanhBao };
 
 //Thêm Cảnh báo
 const fetchAddCanhBao = (headers, data) => {
-    for (const pair of data.entries()) {
-        console.log(pair[0] + ": " + pair[1]);
-    }
+    // for (const pair of data.entries()) {
+    //     console.log(pair[0] + ": " + pair[1]);
+    // }
     return axios.post(`admin/canh-bao-hoc-tap/ThemDotCanhBao`, data, { headers });
 }
 export { fetchAddCanhBao };
@@ -551,6 +547,29 @@ export { fetchUpdateDangKyCN };
 // Đăng ký chuyên ngành
 
 //Khóa luận
+
+// Ghim khóa luận công bố
+const fetchGhimKhoaLuan = (headers, MaKLTN) => {
+    return axios.post(`admin/khoa-luan-tot-nghiep/CongBoDeTaiKhoaLuan/${MaKLTN}`, {
+        MaKLTN: MaKLTN,
+    }, { headers });
+}
+export { fetchGhimKhoaLuan };
+
+// Bỏ ghim khóa luận công bố
+const fetchBoGhimKhoaLuan = (headers, MaKLTN) => {
+    return axios.post(`admin/khoa-luan-tot-nghiep/HuyCongBoDeTaiKhoaLuan/${MaKLTN}`, {
+        MaKLTN: MaKLTN,
+    }, { headers });
+}
+export { fetchBoGhimKhoaLuan };
+
+// Import kết quả khóa luận
+const fetchImportKQKhoaLuan = (headers, MaKLTN, data) => {
+    return axios.post(`admin/khoa-luan-tot-nghiep/ImportKetQuaKLTN/${MaKLTN}`, data, { headers });
+}
+export { fetchImportKQKhoaLuan };
+
 //Get List Khóa luận
 const fetchAllKhoaLuan = (headers) => {
     return axios.get('admin/khoa-luan-tot-nghiep/DanhSachKLTN', { headers });

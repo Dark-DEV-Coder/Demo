@@ -38,7 +38,7 @@ const ThemDeTai = () => {
             return;
         }
         let res = await fetchAddDeTai(headers, khoaluan.MaKLTN, tendetai, thongtin.MaSo)
-        console.log(res)
+        // console.log(res)
         if (res.status === true) {
             toast.success(res.message)
             navigate("/khoaluan")

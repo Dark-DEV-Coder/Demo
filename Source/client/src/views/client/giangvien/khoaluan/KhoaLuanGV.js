@@ -35,7 +35,7 @@ const KhoaLuanGV = () => {
     const handleAcceptSVDuKien = async (value_SV, value_TenDeTai) => {
         const headers = { 'x-access-token': accessToken };
         let res = await fetchAcceptSVDangKy(headers, khoaluan.MaKLTN, value_TenDeTai, thongtin.MaSo, value_SV.MaSV, value_SV.HoSV, value_SV.TenSV, value_SV.Email, value_SV.SoDienThoai, value_SV.DTBTL, value_SV.TinChiTL)
-        console.log(res)
+        // console.log(res)
         if (res.status === true) {
             window.location.reload()
             return;

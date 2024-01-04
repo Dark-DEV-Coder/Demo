@@ -8,9 +8,10 @@ import { Link } from "react-router-dom";
 import moment from 'moment'
 import { IconButton, } from '@mui/material';
 import { Delete, Edit, Visibility } from '@mui/icons-material';
+import PushPinIcon from '@mui/icons-material/PushPin';
 import { toast } from "react-toastify";
 import { useState, useEffect } from 'react';
-import { fetchAllKhoaLuan, fetchDeleteKhoaLuan, fetchUpdateKhoaLuan } from "../GetData"
+import { fetchAllKhoaLuan, fetchDeleteKhoaLuan, fetchUpdateKhoaLuan, fetchGhimKhoaLuan, fetchBoGhimKhoaLuan } from "../GetData"
 const csvConfig = mkConfig({
     fieldSeparator: ',',
     decimalSeparator: '.',
@@ -33,10 +34,32 @@ const TableKhoaLuan = (props) => {
             SetListData_khoaluan(res.data.DanhSach)
         }
     }
+
+    const ghimKhoaLuan = async (row) => {
+        const headers = { 'x-access-token': accessToken };
+        let res = await fetchGhimKhoaLuan(headers, row.original.MaKLTN);
+        if (res && res.status === true) {
+            toast.success("Ghim khóa luận thành công !")
+            setTimeout(() => {
+                window.location.reload()
+            }, [1500])
+        }
+    }
+
+    const boghimKhoaLuan = async (row) => {
+        const headers = { 'x-access-token': accessToken };
+        let res = await fetchBoGhimKhoaLuan(headers, row.original.MaKLTN);
+        if (res && res.status === true) {
+            toast.success("Bỏ ghim khóa luận thành công !")
+            setTimeout(() => {
+                window.location.reload()
+            }, [1500])
+        }
+    }
+
     const getUpdateKhoaLuan = async () => {
         const headers = { 'x-access-token': accessToken };
         let res = await fetchUpdateKhoaLuan(headers);
-        // console.log(res)
     }
 
     const handleDeleteRows = async (row) => {
@@ -106,6 +129,15 @@ const TableKhoaLuan = (props) => {
 
         renderRowActions: ({ row, table }) => (
             <Box sx={{ display: 'flex', gap: '0.3rem' }}>
+                {row.original.TrangThaiCongBo === 'Không công bố' ?
+                    <IconButton onClick={() => ghimKhoaLuan(row)}>
+                        <PushPinIcon fontSize="small" />
+                    </IconButton>
+                    :
+                    <IconButton onClick={() => boghimKhoaLuan(row)}>
+                        <PushPinIcon fontSize="small" sx={{ color: 'red' }} />
+                    </IconButton>
+                }
                 <Link to={"/admin/khoaluan/single/" + row.original.MaKLTN}>
                     <IconButton>
                         <Visibility fontSize="small" />
@@ -121,6 +153,7 @@ const TableKhoaLuan = (props) => {
                 <IconButton onClick={() => handleDeleteRows(row)}>
                     <Delete fontSize="small" sx={{ color: 'red' }} />
                 </IconButton>
+
             </Box >
 
         ),

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import "./Dashboard.scss"
 import logo from "./logo.png"
 import dia from "./dia.png"
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, Link } from "react-router-dom";
 import LockResetIcon from '@mui/icons-material/LockReset';
 const Dashboard = (props) => {
     const { hiddenDB } = props;
@@ -49,7 +49,7 @@ const Dashboard = (props) => {
             <ul className="side-menu" style={{ borderTop: 'solid 2px black' }}>
                 <li>
                     <NavLink to={"/admin/taikhoan/doimatkhau"} className={({ isActive }) => isActive ? "active logout" : 'logout'}>
-                        <a className="logout">
+                        <a href="#" className="logout">
                             <i className='bx bxs-edit-alt' ></i>
                             <span className="text">Đổi mật khẩu</span>
                         </a>
@@ -57,14 +57,14 @@ const Dashboard = (props) => {
                 </li>
                 <li>
                     <NavLink to={"/admin/taikhoan/phuc-hoi-mat-khau"} className={({ isActive }) => isActive ? "active logout" : 'logout'}>
-                        <a className="logout">
+                        <a href="#" className="logout">
                             <i className='bx bx-reset'></i>
                             <span className="text" >Phục hồi mật khẩu</span>
                         </a>
                     </NavLink>
                 </li>
                 <li onClick={() => LogOut()}>
-                    <a className="logout">
+                    <a href="#" className="logout">
                         <i className='bx bx-log-out'></i>
                         <span className="text">Đăng xuất</span>
                     </a>

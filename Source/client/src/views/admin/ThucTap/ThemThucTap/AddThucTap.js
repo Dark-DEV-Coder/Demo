@@ -37,7 +37,7 @@ const AddThucTap = () => {
         value_dssv.append("FileExcel", danhsachSV);
         let res = await fetchAddThucTap(headers, MaDKTT, Ten, NienKhoa, tgbd, tgkt)
         let res2 = await fetchImportDSSVSinhVien(headers, value_dssv)
-        console.log("res2: ", res2)
+        // console.log("res2: ", res2)
         if (res.status === true && res2.status === true) {
             toast.success(res.message)
             navigate("/admin/thuctap")

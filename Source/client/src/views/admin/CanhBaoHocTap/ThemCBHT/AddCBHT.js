@@ -31,7 +31,7 @@ const AddCBHT = () => {
         value_canhbao.append("KetQuaDRL", KetQuaDRL);
         value_canhbao.append("FileExcelPDF", FileExcelPDF);
         let res = await fetchAddCanhBao(headers, value_canhbao)
-        console.log(res)
+        // console.log(res)
         if (res.status === true) {
             toast.success(res.message)
             navigate("/admin/canhbaohoctap")

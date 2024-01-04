@@ -48,9 +48,9 @@ export { fetchDetailGiangVien };
 
 //Sửa thông tin Giảng viên - lỗi
 const fetchEditGiangVien = (headers, MaGV, data) => {
-    for (const pair of data.entries()) {
-        console.log(pair[0] + ": " + pair[1]);
-    }
+    // for (const pair of data.entries()) {
+    //     console.log(pair[0] + ": " + pair[1]);
+    // }
     // console.log(data.HoGV)
     return axios.post(`giang-vien/ChinhSuaThongTin/${MaGV}`, data, { headers });
 }
@@ -258,3 +258,15 @@ const fetchSinhVienHuyDangKyThucTap = (headers, MaDKTT, MaSV) => {
     }, { headers })
 }
 export { fetchSinhVienHuyDangKyThucTap };
+
+// Get khóa luận các năm
+const fetchKhoaLuanCacNam = (headers) => {
+    return axios.get(`khoa-luan-tot-nghiep/DSKLDuocCongBo`, { headers })
+}
+export { fetchKhoaLuanCacNam };
+
+// Get khóa luận các năm
+const fetchDetailKhoaLuanCacNam = (headers, MaKLTN) => {
+    return axios.get(`khoa-luan-tot-nghiep/ChiTietDSDeTaiCongBo/${MaKLTN}`, { headers })
+}
+export { fetchDetailKhoaLuanCacNam };

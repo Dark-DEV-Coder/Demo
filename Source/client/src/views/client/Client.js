@@ -35,6 +35,7 @@ import DsDeTaicuaGiangVien from "./giangvien/khoaluan/DsDeTaiCuaGiangVien/DsDeTa
 import ThemDeTai from "./giangvien/khoaluan/ThemDeTai";
 import ChinhSuaDeTai from "./giangvien/khoaluan/ChinhSuaDeTai/ChinhSuaDeTai";
 import ThongTinDotThucTap from "./sinhvien/thuctap/ThongTinDotThucTap/ThongTinDotThucTap";
+import KhoaLuanCacNam from "./sinhvien/khoaluan/KhoaLuanCacNam/KhoaLuanCacNam";
 const Client = () => {
     const [checkLogin, setCheckLogin] = useState(false)
     const [checkQuyen, setCheckQuyen] = useState(false)
@@ -84,6 +85,7 @@ const Client = () => {
                                     {/* <Route path='thuctap' element={<Error />} ></Route> */}
                                     <Route path='khoaluan' >
                                         <Route index element={<KhoaLuan />}></Route>
+                                        <Route path='ds-khoaluan' element={<KhoaLuanCacNam />}></Route >
                                         <Route path='dky-khoaluan' element={<DangKy />}></Route >
                                         <Route path='dieukiendkykhoaluan' element={<DieuKien />}></Route>
                                         <Route path='huongdandky' element={<HuongDanDK />}></Route>
@@ -124,6 +126,7 @@ const Client = () => {
                                 <Route path='dangky' element={<Signup />}></Route> */}
                                     <Route path='khoaluan' >
                                         <Route index element={<DsDeTaicuaGiangVien />}></Route>
+                                        <Route path='ds-khoaluan' element={<KhoaLuanCacNam />}></Route >
                                         <Route path='chinhsua-detai/:TenDeTai' element={<ChinhSuaDeTai />}></Route >
                                         <Route path='ds-sinhviendky' element={<KhoaLuanGV />}></Route >
                                         <Route path='taomoi' element={<ThemDeTai />}></Route >

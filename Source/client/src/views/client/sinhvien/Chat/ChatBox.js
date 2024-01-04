@@ -38,7 +38,7 @@ const ChatBox = () => {
             <div className="chatbot">
                 <iframe
                     allow="microphone;"
-                    width="480"
+                    width="440"
                     height="540"
                     src="https://console.dialogflow.com/api-client/demo/embedded/70ce2c3a-8f60-43f2-ab60-a0be4f03d47d">
                 </iframe>

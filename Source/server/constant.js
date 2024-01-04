@@ -72,6 +72,11 @@ export const TrangThaiDangKyKLTN = {
     ChuaToiThoiGianDangKy: "Chưa tới thời gian đăng ký",
 }
 
+export const TrangThaiCongBoKLTN = {
+    KhongCongBo: "Không công bố",
+    CongBo: "Công bố",
+}
+
 export const TrangThaiDangKyThucTap = {
     HetThoiGianDangKy: "Hết thời gian đăng ký",
     TrongThoiGianDangKy: "Trong thời gian đăng ký",

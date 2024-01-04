@@ -8,7 +8,14 @@ import KhoaLuanTotNghiep from "../../model/KhoaLuanTotNghiep.js"
 import SinhVien from "../../model/SinhVien.js"
 import GiangVien from "../../model/GiangVien.js"
 import { KtraDuLieuKLTNKhiChinhSua, KtraDuLieuKLTNKhiChinhSuaDeTaiKhoaLuan, KtraDuLieuKLTNKhiSuaThongTinSVDangKyKhoaLuan, KtraDuLieuKLTNKhiThem, KtraDuLieuKLTNKhiThemDeTaiKhoaLuan, KtraDuLieuKLTNKhiThemSVDangKyKhoaLuan, KtraDuLieuKLTNKhiXoaDeTaiKhoaLuan, KtraDuLieuKLTNKhiXoaSVDangKyKhoaLuan } from "../../validation/KhoaLuanTotNghiep.js"
-import { DeTaiKhoaLuan, TrangThaiDangKyKLTN } from "../../constant.js"
+import { DeTaiKhoaLuan, TrangThaiCongBoKLTN, TrangThaiDangKyKLTN } from "../../constant.js"
+import { createKhoaLuanDir } from "../../middleware/createDir.js"
+import { uploadFile } from "../../middleware/storage.js"
+import path from "path"
+import { fileURLToPath } from 'url'
+import { dirname } from 'path'
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const KhoaLuanTotNghiepAdminRoute = express.Router()
 
@@ -662,6 +669,9 @@ KhoaLuanTotNghiepAdminRoute.get('/ExportFileExcelDsDeTai/:MaKLTN', async (req, r
         worksheet.getColumn("H").width = 61;
         worksheet.getColumn("I").width = 19;
         worksheet.getColumn("J").width = 20;
+        worksheet.getColumn("K").width = 18;
+        worksheet.getColumn("L").width = 9;
+        worksheet.getColumn("M").width = 10;
 
         worksheet.getRow(7).height = 28;
         worksheet.getRow(8).height = 28;
@@ -675,31 +685,31 @@ KhoaLuanTotNghiepAdminRoute.get('/ExportFileExcelDsDeTai/:MaKLTN', async (req, r
             right: {style:'thin'}
         };
 
-        worksheet.mergeCells('A2:J2');
+        worksheet.mergeCells('A2:M2');
         const row2 = worksheet.getRow(2).getCell(1);
         row2.value = "CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM";
         row2.alignment = { vertical: 'middle', horizontal: 'center' };
         row2.font = { bold: true, size: sizeFont, name: fontType }
 
-        worksheet.mergeCells('A3:J3');
+        worksheet.mergeCells('A3:M3');
         const row3 = worksheet.getRow(3).getCell(1);
         row3.value = "Độc lập – Tự do – Hạnh phúc";
         row3.alignment = { vertical: 'middle', horizontal: 'center' };
         row3.font = { size: sizeFont, name: fontType }
 
-        worksheet.mergeCells('A4:J4');
+        worksheet.mergeCells('A4:M4');
         const row4 = worksheet.getRow(4).getCell(1);
         row4.value = "Thành phố Hồ Chí Minh, ngày.....tháng.....năm " + now.getFullYear();
         row4.alignment = { vertical: 'middle', horizontal: 'center' };
         row4.font = { size: sizeFont, name: fontType }
 
-        worksheet.mergeCells('A5:J5');
+        worksheet.mergeCells('A5:M5');
         const row5 = worksheet.getRow(5).getCell(1);
         row5.value = kltn.Ten;
         row5.alignment = { vertical: 'middle', horizontal: 'center' };
         row5.font = { bold: true, size: sizeFont, name: fontType }
 
-        worksheet.mergeCells('A6:J6');
+        worksheet.mergeCells('A6:M6');
         const row6 = worksheet.getRow(6).getCell(1);
         row6.value = "Ngành: " + kltn.Nganh.TenNganh + ". Khoa: Công nghệ Thông tin";
         row6.alignment = { vertical: 'middle', horizontal: 'center' };
@@ -785,6 +795,27 @@ KhoaLuanTotNghiepAdminRoute.get('/ExportFileExcelDsDeTai/:MaKLTN', async (req, r
         dvcongtac.font = { bold: true, size: sizeFont, name: fontType }
         dvcongtac.border = borderRound
 
+        worksheet.mergeCells('K7:K8');
+        const ngaybaocao = worksheet.getRow(7).getCell("K");
+        ngaybaocao.value = "Ngày báo cáo";
+        ngaybaocao.alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+        ngaybaocao.font = { bold: true, size: sizeFont, name: fontType }
+        ngaybaocao.border = borderRound
+
+        worksheet.mergeCells('L7:L8');
+        const diem = worksheet.getRow(7).getCell("L");
+        diem.value = "Điểm";
+        diem.alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+        diem.font = { bold: true, size: sizeFont, name: fontType }
+        diem.border = borderRound
+
+        worksheet.mergeCells('M7:M8');
+        const ghichu = worksheet.getRow(7).getCell("M");
+        ghichu.value = "Ghi chú";
+        ghichu.alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+        ghichu.font = { bold: true, size: sizeFont, name: fontType }
+        ghichu.border = borderRound
+
         let i = 9;
         let dem = 1;
         kltn.DSDeTai.forEach((element) => {
@@ -821,6 +852,15 @@ KhoaLuanTotNghiepAdminRoute.get('/ExportFileExcelDsDeTai/:MaKLTN', async (req, r
 
                 worksheet.mergeCells( 'J' + i + ':J' + (i+1) );
                 worksheet.getRow(i).getCell("J").value = element.GVHD.DonViCongTac;
+
+                worksheet.mergeCells( 'K' + i + ':K' + (i+1) );
+                worksheet.getRow(i).getCell("K").value = "";
+
+                worksheet.mergeCells( 'L' + i + ':L' + (i+1) );
+                worksheet.getRow(i).getCell("L").value = "";
+
+                worksheet.mergeCells( 'M' + i + ':M' + (i+1) );
+                worksheet.getRow(i).getCell("M").value = "";
                 i++;
             }
             if (element.SVChinhThuc.length == 1){
@@ -855,6 +895,16 @@ KhoaLuanTotNghiepAdminRoute.get('/ExportFileExcelDsDeTai/:MaKLTN', async (req, r
 
                 worksheet.mergeCells( 'J' + i + ':J' + (i+1) );
                 worksheet.getRow(i).getCell("J").value = element.GVHD.DonViCongTac;
+
+                worksheet.mergeCells( 'K' + i + ':K' + (i+1) );
+                worksheet.getRow(i).getCell("K").value = "";
+
+                worksheet.mergeCells( 'L' + i + ':L' + (i+1) );
+                worksheet.getRow(i).getCell("L").value = "";
+
+                worksheet.mergeCells( 'M' + i + ':M' + (i+1) );
+                worksheet.getRow(i).getCell("M").value = "";
+                i++;
             }
             if (element.SVChinhThuc.length == 0){
                 worksheet.getRow(i).height = 28;
@@ -882,13 +932,22 @@ KhoaLuanTotNghiepAdminRoute.get('/ExportFileExcelDsDeTai/:MaKLTN', async (req, r
                 worksheet.getRow(i+1).getCell("G").value = "";
 
                 worksheet.mergeCells( 'H' + i + ':H' + (i+1) );
-                worksheet.getRow(i).getCell("H").value = "";
+                worksheet.getRow(i).getCell("H").value = element.TenDeTai;
 
                 worksheet.mergeCells( 'I' + i + ':I' + (i+1) );
-                worksheet.getRow(i).getCell("I").value = "";
+                worksheet.getRow(i).getCell("I").value = element.GVHD.HoGV + " " + element.GVHD.TenGV;
 
                 worksheet.mergeCells( 'J' + i + ':J' + (i+1) );
-                worksheet.getRow(i).getCell("J").value = "";
+                worksheet.getRow(i).getCell("J").value = element.GVHD.DonViCongTac;
+
+                worksheet.mergeCells( 'K' + i + ':K' + (i+1) );
+                worksheet.getRow(i).getCell("K").value = "";
+
+                worksheet.mergeCells( 'L' + i + ':L' + (i+1) );
+                worksheet.getRow(i).getCell("L").value = "";
+
+                worksheet.mergeCells( 'M' + i + ':M' + (i+1) );
+                worksheet.getRow(i).getCell("M").value = "";
                 i++;
             }
             dem++;
@@ -912,6 +971,126 @@ KhoaLuanTotNghiepAdminRoute.get('/ExportFileExcelDsDeTai/:MaKLTN', async (req, r
             .catch((error) => {
                 console.error('Lỗi khi xuất file Excel:', error);
             });
+    }
+    catch (error){
+        console.log(error)
+        return sendServerError(res)
+    }
+})
+
+/**
+ * @route POST /api/admin/khoa-luan-tot-nghiep/CongBoDeTaiKhoaLuan/{MaKLTN}
+ * @description Công bố danh sách đề tài khóa luận
+ * @access public
+ */
+KhoaLuanTotNghiepAdminRoute.post('/CongBoDeTaiKhoaLuan/:MaKLTN', async (req, res) => {
+    try{
+        const { MaKLTN } = req.params;
+        const kltn = await KhoaLuanTotNghiep.findOne({ MaKLTN: MaKLTN }).lean();
+        if (kltn.length <= 0)
+            return sendError(res, "Mã khóa luận tốt nghiệp không tồn tại");
+
+        await KhoaLuanTotNghiep.findOneAndUpdate({ MaKLTN: MaKLTN }, { TrangThaiCongBo: TrangThaiCongBoKLTN.CongBo });
+        
+        return sendSuccess(res, "Công bố danh sách đề tài khóa luận thành công");
+    }
+    catch (error){
+        console.log(error)
+        return sendServerError(res)
+    }
+})
+
+/**
+ * @route POST /api/admin/khoa-luan-tot-nghiep/HuyCongBoDeTaiKhoaLuan/{MaKLTN}
+ * @description Hủy công bố danh sách đề tài khóa luận
+ * @access public
+ */
+KhoaLuanTotNghiepAdminRoute.post('/HuyCongBoDeTaiKhoaLuan/:MaKLTN', async (req, res) => {
+    try{
+        const { MaKLTN } = req.params;
+        const kltn = await KhoaLuanTotNghiep.findOne({ MaKLTN: MaKLTN }).lean();
+        if (!kltn)
+            return sendError(res, "Mã khóa luận tốt nghiệp không tồn tại");
+
+        await KhoaLuanTotNghiep.findOneAndUpdate({ MaKLTN: MaKLTN }, { TrangThaiCongBo: TrangThaiCongBoKLTN.KhongCongBo });
+        
+        return sendSuccess(res, "Hủy công bố danh sách đề tài khóa luận thành công");
+    }
+    catch (error){
+        console.log(error)
+        return sendServerError(res)
+    }
+})
+
+/**
+ * @route POST /api/admin/khoa-luan-tot-nghiep/ImportKetQuaKLTN/{MaKLTN}
+ * @description Import danh sách kết quả khóa luận tốt nghiệp
+ * @access public
+ */
+KhoaLuanTotNghiepAdminRoute.post('/ImportKetQuaKLTN/:MaKLTN', createKhoaLuanDir, uploadFile.single("FileExcel"), async (req, res) => {
+    try{
+        const { MaKLTN } = req.params;
+        const kltn = await KhoaLuanTotNghiep.findOne({ MaKLTN: MaKLTN }).populate([
+            {
+                path: "Nganh",
+                select: "MaNganh TenNganh",
+            },
+            {
+                path: "DSDeTai",
+                select: "GVHD",
+                populate: [
+                    {
+                        path: "GVHD",
+                        select: "MaGV HoGV TenGV DonViCongTac"
+                    },
+                ]
+            },
+        ]).lean();
+        if (!kltn)
+            return sendError(res, "Đợt đăng ký khóa luận này không tồn tại");
+        let thongtin = [];
+        let fileName = path.join(__dirname, `../../public/KhoaLuan/${req.file.filename}`);
+        const workbook = new ExcelJS.Workbook();
+        await workbook.xlsx.readFile(fileName)
+            .then(() => {
+                const sheetCount = workbook.worksheets.length;
+                for (let i = 1; i <= sheetCount; i++){
+                    let k = 9;
+                    const worksheet = workbook.getWorksheet(i);
+                    worksheet.eachRow((row, rowNumber) => {
+                        if ( rowNumber >= k ){
+                            let data = {
+                                tendetai: row.getCell("H").value,
+                                giangvien: row.getCell("I").value,
+                                ngay: row.getCell("K").value,
+                                diem: Number(row.getCell("L").value),
+                                ghichu: row.getCell("M").value
+                            }
+                            thongtin.push(data);
+                            k = k + 2;
+                        }
+                        
+                    });
+                }
+            })
+            .catch(err => {
+                console.error(err);
+            });
+        fs.unlinkSync(fileName, (err) => {
+            console.log(err)
+        })
+        kltn.DSDeTai.forEach((element) => {
+            let hotengv = element.GVHD.HoGV + " " + element.GVHD.TenGV;
+            thongtin.forEach((data) => {
+                if (element.TenDeTai.includes(data.tendetai) && hotengv.includes(data.giangvien)){
+                    element.NgayBaoCao = data.ngay;
+                    element.Diem = data.diem;
+                    element.GhiChu = data.ghichu;
+                }
+            });
+        });
+        await KhoaLuanTotNghiep.findOneAndUpdate({ MaKLTN: MaKLTN }, { DSDeTai: kltn.DSDeTai });
+        return sendSuccess(res, "Import file kết quả thành công");
     }
     catch (error){
         console.log(error)

@@ -47,7 +47,7 @@ const ChiTietThucTap = () => {
     const handleExportFile = async () => {
         const headers = { 'x-access-token': accessToken }
         let res = await fetchExportFileDSSV_Cty(headers, thuctap.MaDKTT)
-        console.log(res)
+        // console.log(res)
         const url = URL.createObjectURL(new Blob([res]));
         const aTag = document.createElement('a')
         aTag.href = url

@@ -5,7 +5,7 @@ import KhoaLuanTotNghiep from "../model/KhoaLuanTotNghiep.js"
 import SinhVien from "../model/SinhVien.js"
 import GiangVien from "../model/GiangVien.js"
 import { KtraDuLieuKLTNKhiChinhSuaDeTaiKhoaLuan, KtraDuLieuKLTNKhiThemDeTaiKhoaLuan, KtraDuLieuKLTNKhiThemSVDangKyKhoaLuan, KtraDuLieuKLTNKhiXoaDeTaiKhoaLuan, KtraDuLieuKLTNKhiXoaSVDangKyKhoaLuan } from "../validation/KhoaLuanTotNghiep.js"
-import { DeTaiKhoaLuan, TrangThaiDangKyKLTN, TrangThaiKhoaLuan } from "../constant.js"
+import { DeTaiKhoaLuan, TrangThaiCongBoKLTN, TrangThaiDangKyKLTN, TrangThaiKhoaLuan } from "../constant.js"
 import { verifyToken, verifyUser } from "../middleware/verify.js"
 
 const KhoaLuanTotNghiepRoute = express.Router()
@@ -627,6 +627,60 @@ KhoaLuanTotNghiepRoute.post('/DSDeTaiChuaDangKyTheoGiangVien/:MaKLTN', verifyTok
         });
 
         return sendSuccess(res, "Danh sách đề tài chưa đăng ký của giảng viên.", thongtin);
+    }
+    catch (error) {
+        console.log(error)
+        return sendServerError(res)
+    }
+})
+
+/**
+ * @route GET /api/khoa-luan-tot-nghiep/DSKLDuocCongBo
+ * @description Các danh sách đề tài khóa luận được công bố
+ * @access public
+ */
+KhoaLuanTotNghiepRoute.get('/DSKLDuocCongBo', async (req, res) => {
+    try {
+        const kltn = await KhoaLuanTotNghiep.find({ TrangThaiCongBo: TrangThaiCongBoKLTN.CongBo }).lean();
+        if (kltn.length <= 0)
+            return sendError(res, "Không tồn tại danh sách được công bố");
+
+        return sendSuccess(res, "Danh sách đề tài được công bố.", kltn);
+    }
+    catch (error) {
+        console.log(error)
+        return sendServerError(res)
+    }
+})
+
+/**
+ * @route GET /api/khoa-luan-tot-nghiep/ChiTietDSDeTaiCongBo/{MaKLTN}
+ * @description Chi tiết danh sách đề tài khóa luận được công bố
+ * @access public
+ */
+KhoaLuanTotNghiepRoute.get('/ChiTietDSDeTaiCongBo/:MaKLTN', async (req, res) => {
+    try {
+        const { MaKLTN } = req.params;
+        const kltn = await KhoaLuanTotNghiep.findOne({ MaKLTN: MaKLTN }).populate([
+            {
+                path: "Nganh",
+                select: "MaNganh TenNganh",
+            },
+            {
+                path: "DSDeTai",
+                select: "GVHD",
+                populate: [
+                    {
+                        path: "GVHD",
+                        select: "MaGV HoGV TenGV DonViCongTac"
+                    },
+                ]
+            },
+        ]).lean();
+        if (!kltn)
+            return sendError(res, "Đợt khóa luận tốt nghiệp không tồn tại");
+
+        return sendSuccess(res, "Chi tiết danh sách đề tài được công bố.", kltn);
     }
     catch (error) {
         console.log(error)

@@ -4146,7 +4146,7 @@ paths:
         - "SinhVienClient"
       summary: Chỉnh sửa thông tin sinh viên
       produces:
-        - application/json     
+        - multipart/form-data       
       parameters:
         - in: path
           name: MaSV
@@ -4240,7 +4240,7 @@ paths:
         - "GiangVienClient"
       summary: Chỉnh sửa thông tin giảng viên
       produces:
-        - application/json     
+        - multipart/form-data       
       parameters:
         - in: path
           name: MaGV
@@ -5429,6 +5429,165 @@ paths:
             example: {
               "status": false,
               "message" : "Xóa thông tin chuyên ngành để sinh viên đăng ký thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/khoa-luan-tot-nghiep/CongBoDeTaiKhoaLuan/{MaKLTN}:
+    post:
+      tags:
+        - "CacAPIThem"
+      summary: "Công bố danh sách đề tài khóa luận"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaKLTN
+          type: string
+          required: true
+          description: Mã khóa luận tốt nghiệp
+      responses:
+        200:
+          description: Công bố danh sách đề tài khóa luận thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Công bố danh sách đề tài khóa luận thành công.",
+            }
+        400:
+          description: Công bố danh sách đề tài khóa luận thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Công bố danh sách đề tài khóa luận thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/khoa-luan-tot-nghiep/HuyCongBoDeTaiKhoaLuan/{MaKLTN}:
+    post:
+      tags:
+        - "CacAPIThem"
+      summary: "Hủy công bố danh sách đề tài khóa luận"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaKLTN
+          type: string
+          required: true
+          description: Mã khóa luận tốt nghiệp
+      responses:
+        200:
+          description: Hủy công bố danh sách đề tài khóa luận thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Hủy công bố danh sách đề tài khóa luận thành công.",
+            }
+        400:
+          description: Hủy công bố danh sách đề tài khóa luận thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Hủy công bố danh sách đề tài khóa luận thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /khoa-luan-tot-nghiep/DSKLDuocCongBo:
+    get:
+      tags:
+        - "CacAPIThem"
+      summary: "Các danh sách đề tài khóa luận được công bố"
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Lấy danh sách đề tài khóa luận được công bố thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Lấy danh sách đề tài khóa luận được công bố thành công.",
+            }
+        400:
+          description: Lấy danh sách đề tài khóa luận được công bố thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Lấy danh sách đề tài khóa luận được công bố thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /admin/khoa-luan-tot-nghiep/ImportKetQuaKLTN/{MaKLTN}:
+    post:
+      tags:
+        - "CacAPIThem"
+      summary: "Import file kết quả khóa luận"
+      produces:
+        - multipart/form-data
+      parameters:
+        - in: path
+          name: MaKLTN
+          type: string
+          required: true
+          description: Mã khóa luận tốt nghiệp
+        - in: formData
+          name: FileExcel
+          type: file
+          required: true
+          description: file excel
+      responses:
+        200:
+          description: Import file kết quả khóa luận thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Import file kết quả khóa luận thành công.",
+            }
+        400:
+          description: Import file kết quả khóa luận thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Import file kết quả khóa luận thất bại.",
+            }
+      security:
+        - ApiKeyAuth: []
+  /khoa-luan-tot-nghiep/ChiTietDSDeTaiCongBo/{MaKLTN}:
+    get:
+      tags:
+        - "CacAPIThem"
+      summary: "Chi tiết danh sách đề tài khóa luận được công bố"
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: MaKLTN
+          type: string
+          required: true
+          description: Mã khóa luận tốt nghiệp
+      responses:
+        200:
+          description: Lấy chi tiết danh sách đề tài được công bố thành công.
+          schema:
+            type: object
+            example: {
+              "status": true,
+              "message": "Lấy chi tiết danh sách đề tài được công bố thành công.",
+            }
+        400:
+          description: Lấy chi tiết danh sách đề tài được công bố thất bại.
+          schema:
+            type: object
+            example: {
+              "status": false,
+              "message" : "Lấy chi tiết danh sách đề tài được công bố thất bại.",
             }
       security:
         - ApiKeyAuth: []

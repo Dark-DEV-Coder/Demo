@@ -35,7 +35,7 @@ const ChiTietCBHT = () => {
     const [nam, setNam] = useState([])
 
     //3 select
-    const [select_thongke, setSelect_thongke] = useState("Ngành")
+    const [select_thongke, setSelect_thongke] = useState("Lớp")
     const [select_nganh, setSelect_nganh] = useState("Tất cả")
     const [select_khoa, setSelect_khoa] = useState("Tất cả")
     // Bảng thống kê
@@ -46,7 +46,7 @@ const ChiTietCBHT = () => {
 
     useEffect(() => {
         getDetailCanhBao();
-        getStatisticalCanhBao('Ngành', 'Tất cả', 'Tất cả');
+        getStatisticalCanhBao('Lớp', 'Tất cả', 'Tất cả');
         getListNganh();
         getNam();
     }, []);
@@ -63,7 +63,7 @@ const ChiTietCBHT = () => {
     const getStatisticalCanhBao = async (thongketheo, nganh, khoa) => {
         const headers = { 'x-access-token': accessToken };
         let res = await fetchStatisticalCanhBao(headers, canhbao.MaCBHT, thongketheo, nganh, khoa);
-        console.log(res)
+        // console.log(res)
         if (res && res.data) {
             let ds_khoa = [];
             let ds_canhbao = [];
@@ -238,69 +238,89 @@ const ChiTietCBHT = () => {
                         }
                     </TabPanel>
                     <TabPanel value="tk">
-                        <div className="table">
-                            <div className="form-row">
-                                <div className="form-group col-md-4">
-                                    <label className="inputGV" htmlFor="inputGioitinhGV">Thống kê theo</label>
-                                    <select value={select_thongke} id="inputGioitinhGV" className="form-control" onChange={(event) => changleSelectThongKe(event)}>
-                                        <option value='Ngành'>Ngành</option>
-                                        <option value='Khóa'>Khóa</option>
-                                        <option value='Lớp'>Lớp</option>
-                                    </select>
+                        {KieuCanhBao === "Điểm học tập" ?
+                            <div className="table">
+                                <div className="form-row">
+                                    <div className="form-group col-md-4">
+                                        <label className="inputGV" htmlFor="inputGioitinhGV">Thống kê theo</label>
+                                        <select value={select_thongke} id="inputGioitinhGV" className="form-control" onChange={(event) => changleSelectThongKe(event)}>
+                                            <option value='Ngành'>Ngành</option>
+                                            <option value='Khóa'>Khóa</option>
+                                            <option value='Lớp'>Lớp</option>
+                                        </select>
+                                    </div>
+                                    <div className="form-group col-md-4">
+                                        <label className="inputGV" htmlFor="inputGioitinhGV">Lọc theo ngành</label>
+                                        <select value={select_nganh} id="inputGioitinhGV" className="form-control" onChange={(event) => changleSelect_nganh(event)} disabled={select_thongke === "Ngành" ? true : false}>
+                                            <option value="Tất cả">Tất cả</option>
+                                            {listData_nganh && listData_nganh.length > 0 &&
+                                                listData_nganh.map((item, index) => {
+                                                    return (
+                                                        <option key={item.MaNganh} value={item.TenNganh}>{item.TenNganh}</option>
+                                                    )
+                                                })
+                                            }
+                                        </select>
+                                    </div>
+                                    <div className="form-group col-md-4">
+                                        <label className="inputGV" htmlFor="inputGioitinhGV">Lọc theo khóa</label>
+                                        <select value={select_khoa} id="inputGioitinhGV" className="form-control" onChange={(event) => changleSelect_khoa(event)} disabled={select_thongke === "Ngành" || select_thongke === "Khóa" ? true : false}>
+                                            <option value="Tất cả">Tất cả</option>
+                                            {nam && nam.length > 0 &&
+                                                nam.map((item, index) => {
+                                                    return (
+                                                        <option key={item} value={item}>{item}</option>
+                                                    )
+                                                })
+                                            }
+                                        </select>
+                                    </div>
                                 </div>
-                                <div className="form-group col-md-4">
-                                    <label className="inputGV" htmlFor="inputGioitinhGV">Lọc theo ngành</label>
-                                    <select value={select_nganh} id="inputGioitinhGV" className="form-control" onChange={(event) => changleSelect_nganh(event)} disabled={select_thongke === "Ngành" ? true : false}>
-                                        <option value="Tất cả">Tất cả</option>
-                                        {listData_nganh && listData_nganh.length > 0 &&
-                                            listData_nganh.map((item, index) => {
-                                                return (
-                                                    <option key={item.MaNganh} value={item.TenNganh}>{item.TenNganh}</option>
-                                                )
-                                            })
-                                        }
-                                    </select>
+                                <div id="chart">
+                                    {thongke_khoa.length === 0 ?
+                                        <>
+                                            <label style={{ color: 'red' }}>Không có dữ liệu cho đợt tìm kiếm : </label>
+                                            <h6> Thống kê theo: {select_thongke}</h6>
+                                            <h6> Lọc theo ngành: {select_nganh}</h6>
+                                            <h6> Lọc theo khóa: {select_khoa}</h6>
+                                        </>
+                                        :
+                                        <Chart options={value_table.options} series={value_table.series} type="bar" height={350} />
+                                    }
+
                                 </div>
-                                <div className="form-group col-md-4">
-                                    <label className="inputGV" htmlFor="inputGioitinhGV">Lọc theo khóa</label>
-                                    <select value={select_khoa} id="inputGioitinhGV" className="form-control" onChange={(event) => changleSelect_khoa(event)} disabled={select_thongke === "Ngành" || select_thongke === "Khóa" ? true : false}>
-                                        <option value="Tất cả">Tất cả</option>
-                                        {nam && nam.length > 0 &&
-                                            nam.map((item, index) => {
-                                                return (
-                                                    <option key={item} value={item}>{item}</option>
-                                                )
-                                            })
-                                        }
-                                    </select>
-                                </div>
-                            </div>
-                            <div id="chart">
-                                {thongke_khoa.length === 0 ?
-                                    <>
-                                        <label style={{ color: 'red' }}>Không có dữ liệu cho đợt tìm kiếm : </label>
-                                        <h6> Thống kê theo: {select_thongke}</h6>
-                                        <h6> Lọc theo ngành: {select_nganh}</h6>
-                                        <h6> Lọc theo khóa: {select_khoa}</h6>
-                                    </>
-                                    :
-                                    <Chart options={value_table.options} series={value_table.series} type="bar" height={350} />
-                                }
 
                             </div>
+                            :
 
-                        </div>
+                            <div className="table">
+                                <div className="form-row">
+                                    <div className="form-group col-md-4">
+                                        <label className="inputGV" htmlFor="inputGioitinhGV">Thống kê theo</label>
+                                        <select value={select_thongke} id="inputGioitinhGV" className="form-control" onChange={(event) => changleSelectThongKe(event)}>
+                                            <option value='Lớp'>Lớp</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div id="chart">
+                                    {thongke_khoa.length === 0 ?
+                                        <>
+                                            <label style={{ color: 'red' }}>Không có dữ liệu cho đợt tìm kiếm : </label>
+                                            <h6> Thống kê theo: {select_thongke}</h6>
+                                            <h6> Lọc theo ngành: {select_nganh}</h6>
+                                            <h6> Lọc theo khóa: {select_khoa}</h6>
+                                        </>
+                                        :
+                                        <Chart options={value_table.options} series={value_table.series} type="bar" height={350} />
+                                    }
 
+                                </div>
+
+                            </div>
+
+                        }
                     </TabPanel>
                 </TabContext>
-
-
-
-
-
-
-
-
             </main >
         </>
     )

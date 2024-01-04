@@ -38,7 +38,7 @@ const Doimatkhau = () => {
             window.localStorage.clear();
             navigate("/dangnhap")
             window.location.reload()
-            return;
+            return; 
         }
         if (res.status === false) {
             toast.error(res.message)

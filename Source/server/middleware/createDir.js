@@ -48,3 +48,11 @@ export const createThucTapDir = (req, res, next) => {
     req.dirName = 'ThucTap'
     next()
 }
+
+export const createKhoaLuanDir = (req, res, next) => {
+    mkdir(`public/KhoaLuan`, { recursive: true }, (err) => {
+        if (err) return sendError(res, 'Không thể tải tập tin lên.')
+    })
+    req.dirName = 'KhoaLuan'
+    next()
+}
