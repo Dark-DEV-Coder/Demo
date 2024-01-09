@@ -23,7 +23,7 @@ const HuongDanDK_TT = () => {
 
             <div className="content">
                 <ol className="alternating-colors">
-                    {BuocDK && BuocDK.length > 0 &&
+                    {BuocDK &&
                         BuocDK.map((item, index) => {
                             return (
                                 <li key={item.id}>

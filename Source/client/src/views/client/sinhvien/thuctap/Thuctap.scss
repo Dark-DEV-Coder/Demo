@@ -45,8 +45,28 @@
 
     .content-dkythuctap {
         label {
-            text-align : start;
+            text-align    : start;
             // font-weight: 400;
         }
+    }
+}
+
+.select-tt {
+    background-color: #202C45;
+    color           : white;
+    border-radius   : 5px;
+    height          : 2.5rem;
+    width           : 100%;
+    display         : flex;
+    justify-items   : start;
+}
+
+.vitri-tt {
+    margin-top  : 1rem;
+    margin-right: 1rem;
+
+    label {
+        font-size  : 18px;
+        font-weight: 400;
     }
 }

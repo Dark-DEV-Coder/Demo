@@ -52,8 +52,8 @@ const KhoaLuanCacNam = () => {
                 </ol>
                 <div className="container-tb-update">
                     <h3>Danh sách khóa luận được công bố qua các năm</h3>
-                    <select value={dsKLCongBo && dsKLCongBo.length > 0 ? maKLTN : ""} className="select-btnn" onChange={(event) => onChangeSelect(event, setMaKLTN)}>
-                        {dsKLCongBo && dsKLCongBo.length > 0 && dsKLCongBo.map((item, index) => {
+                    <select value={dsKLCongBo ? maKLTN : ""} className="select-btnn" onChange={(event) => onChangeSelect(event, setMaKLTN)}>
+                        {dsKLCongBo && dsKLCongBo.map((item, index) => {
                             return (
                                 <option value={item.MaKLTN}>{item.Ten}</option>
                             )
@@ -91,7 +91,7 @@ const KhoaLuanCacNam = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {detai && detai.length > 0 &&
+                            {detai &&
                                 detai.map((item, index) => {
                                     // Khi đề tài đủ 2 SV đăng ký
                                     if (item.SVChinhThuc.length > 1) {

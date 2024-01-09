@@ -31,6 +31,7 @@ const DangKyChuyenNganh = () => {
     const getDetailSinhVien = async (MaSo) => {
         const headers = { 'x-access-token': accessToken };
         let res = await fetchDetailSinhVien(headers, MaSo);
+        // console.log(res)
         let res2 = await fetchDetailChuyenNganh(headers);
         if (res && res.data && res2 && res2.data) {
             setDKCN(res2.data)
@@ -70,14 +71,12 @@ const DangKyChuyenNganh = () => {
             toast.error("Vui lòng chọn lại chuyên ngành một lần nữa !")
             return;
         }
-        let huyDky = await fetchHuyDkyChuyenNganh(headers, MaDKCN, SinhVien.MaSV, manganh, chuyennganh)
-        // console.log(huyDky)
-        if (huyDky.status === true) {
+        if (SinhVien.ChuyenNganh === null) {
             let res = await fetchDkyChuyenNganh(headers, MaDKCN, SinhVien.MaSV, manganh, chuyennganh)
             // console.log("DK: ", res)
             if (res.status === true) {
                 toast.success(res.message)
-                navigate("/chuyennganh/ds-sinhvien")
+                // navigate("/chuyennganh/ds-sinhvien")
                 return;
             }
             if (res.status === false) {
@@ -85,8 +84,27 @@ const DangKyChuyenNganh = () => {
                 return;
             }
         }
+        else {
+            console.log("CN: ", chuyennganh)
+            let huyDky = await fetchHuyDkyChuyenNganh(headers, MaDKCN, SinhVien.MaSV, manganh, chuyennganh)
+            console.log(huyDky)
+            // if (huyDky.status === true) {
+            //     setTimeout(async () => {
+            //         let res = await fetchDkyChuyenNganh(headers, MaDKCN, SinhVien.MaSV, manganh, chuyennganh)
+            //         console.log("DK: ", res)
+            //         if (res.status === true) {
+            //             toast.success(res.message)
+            //             // navigate("/chuyennganh/ds-sinhvien")
+            //             return;
+            //         }
+            //         if (res.status === false) {
+            //             toast.error(res.message)
+            //             return;
+            //         }
+            //     }, 2000)
 
-
+            // }
+        }
     }
 
 

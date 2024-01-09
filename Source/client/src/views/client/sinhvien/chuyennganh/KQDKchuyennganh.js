@@ -27,15 +27,19 @@ const KQDKchuyennganh = () => {
     const getDetailChuyenNganh = async () => {
         const headers = { 'x-access-token': accessToken };
         let res = await fetchDetailChuyenNganh(headers);
-        // console.log(res)
+        console.log(res)
         if (res && res.data) {
+            if (res.data.ThongTin.length > 0) {
+                setValueTable(res.data.ThongTin[0].ChuyenNganh.MaChuyenNganh)
+                getDetailDSSV(res.data.MaDKCN, res.data.ThongTin[0].Nganh.MaNganh, res.data.ThongTin[0].ChuyenNganh.MaChuyenNganh, setData_LTUD)
+            }
             setChuyennganh(res.data)
             setListChuyenNganh(res.data.ThongTin)
-            getDetailDSSV(res.data.MaDKCN, "DCT", "KTPM", setData_KTPM)
+
         }
     }
 
-    const [valueTable, setValueTable] = useState('KTPM');
+    const [valueTable, setValueTable] = useState('');
     const [listData, setListData] = useState(data_KTPM);
     const handleChangeCNTT = (event, newValue) => {
         setValueTable(newValue);

@@ -22,6 +22,8 @@ const Thuctap = () => {
     const [diachithuongtrusinhvien, setDiachithuongtrusinhvien] = useState("")
     const [diachilienhesinhvien, setDiachilienhesinhvien] = useState("")
 
+    const [cbx_cty, setCbx_cty] = useState({})
+
 
     const [tencty, setTencty] = useState("")
     const [vitri, setVitri] = useState("")
@@ -32,8 +34,11 @@ const Thuctap = () => {
     const [tennguoilienhe, setTennguoilienhe] = useState("")
     const [sdtnguoilienhe, setSdtnguoilienhe] = useState("")
 
-    const [radioCty, setRadioCty] = useState('')
 
+
+    const [radioCty, setRadioCty] = useState('')
+    const [dsctyThucTapcbx, setDsctyThucTapcbx] = useState([])
+    const [cty_Tam, setCty_Tam] = useState({})
 
     // component didmount
     useEffect(() => {
@@ -44,10 +49,16 @@ const Thuctap = () => {
     }, []);
     const getDetailThucTap = async () => {
         const headers = { 'x-access-token': accessToken };
-        let ress = await fetchDetailThucTap(headers)
-        // console.log("DetailThucTap ", ress)
-        if (ress && ress.data) {
-            setThuctap(ress.data)
+        let res = await fetchDetailThucTap(headers)
+        console.log("DetailThucTap ", res)
+        if (res && res.data) {
+            setThuctap(res.data)
+            if (res.data.CongTyTrongDS.length > 0) {
+                setTencty(res.data.CongTyTrongDS[0].TenCongTy)
+                setDsctyThucTapcbx(res.data.CongTyTrongDS)
+                setEmailcongty(res.data.CongTyTrongDS[0].Email)
+                setCbx_cty(res.data.CongTyTrongDS[0])
+            }
         }
     }
     const getDetailSinhVien = async (MaSo) => {
@@ -73,10 +84,11 @@ const Thuctap = () => {
             toast.error("Vui lòng điền công ty !")
         }
         if (radioCty === "1") {
-            if (!headers || !vitri || !emailcongty) {
+            if (!headers || !tencty || !vitri || !emailcongty) {
                 toast.error("Vui lòng điền đầy đủ thông tin !")
                 return;
             }
+            console.log(thuctap.MaDKTT, vitri, emailcongty, thongtin.MaSo)
             let res2 = await fetchSinhVienDangKyThucTapTrongDS(headers, thuctap.MaDKTT, vitri, emailcongty, thongtin.MaSo)
             if (res2.status === true) {
                 toast.success(res2.message)
@@ -126,6 +138,14 @@ const Thuctap = () => {
     const onChangeInputSL = (event, setState) => {
         let changeValue = event.target.value;
         setState(changeValue);
+    }
+
+    const onChangeTenCty = (event, setState) => {
+        let changeValue = event.target.value;
+        setState(changeValue);
+        setCbx_cty(dsctyThucTapcbx.filter(item => item.TenCongTy === changeValue)[0])
+        setEmailcongty(dsctyThucTapcbx.filter(item => item.TenCongTy === changeValue)[0].Email)
+        setVitri("")
     }
 
 
@@ -258,26 +278,73 @@ const Thuctap = () => {
 
 
                                 <div style={radioCty === '' ? { display: 'none' } : { display: 'block' }}>
-                                    <div className="form-row">
-                                        <div className="form-group col-md-12">
-                                            <label className="inputDK" htmlFor="inputTrinhdo">Tên công ty thực tập</label>
-                                            <input type="text" className="form-control" id="inputTrinhdo" value={tencty} placeholder="Điền tên công ty thực tập ..." onChange={(event) => onChangeInputSL(event, setTencty)} onBlur={() => checkdulieu(tencty, setCheckTencty)} />
-                                            <div className="invalid-feedback" style={{ display: checkTencty ? 'none' : 'block' }}>Vui lòng điền vào ô dữ liệu </div>
+                                    <div style={radioCty === '0' ? { display: 'none' } : { display: 'block' }}>
+                                        <div className="form-row">
+                                            <div className="form-group col-md-6">
+                                                <label className="inputDK" >Tên công ty</label>
+                                                <select value={dsctyThucTapcbx ? tencty : ""} className="select-tt" onChange={(event) => onChangeTenCty(event, setTencty)}>
+                                                    {dsctyThucTapcbx && dsctyThucTapcbx.map((item, index) => {
+                                                        return (
+                                                            <option value={item.TenCongTy}>{item.TenCongTy}</option>
+                                                        )
+                                                    })}
+                                                </select>
+                                            </div>
+
                                         </div>
+
+                                        <div className="form-row" style={tencty === '' ? { display: 'none' } : { display: 'block' }}>
+                                            <div className="form-group col-md-12" style={{ display: 'flex' }}>
+                                                {cbx_cty && cbx_cty.DangKy && cbx_cty.DangKy.map((item, index) => {
+                                                    return (
+                                                        <div className="vitri-tt">
+                                                            <label className="inputDK" >{item.ViTri}: {item.DaDangKy}/{item.ConLai}</label>
+                                                        </div>
+                                                    )
+                                                })}
+                                            </div>
+                                        </div>
+
+                                        <div className="form-row">
+                                            <div className="form-group col-md-6">
+                                                <label className="inputDK" >Vị trí thực tập</label>
+                                                <select value={cbx_cty ? vitri : ""} className="select-tt" onChange={(event) => onChangeInputSL(event, setVitri)}>
+                                                    {cbx_cty && cbx_cty.DangKy && cbx_cty.DangKy.map((item, index) => {
+                                                        return (
+                                                            <option value={item.ViTri}>{item.ViTri}</option>
+                                                        )
+                                                    })}
+                                                </select>
+                                            </div>
+                                            <div className="form-group col-md-6">
+                                                <label className="inputDK" htmlFor="inputTrinhdo">Email công ty</label>
+                                                <input type="text" className="form-control" id="inputTrinhdo" value={emailcongty} disabled />
+                                                {/* <div className="invalid-feedback" style={{ display: checkEmailcongty ? 'none' : 'block' }}>Vui lòng điền vào ô dữ liệu </div> */}
+                                            </div>
+                                        </div>
+
                                     </div>
-                                    <div className="form-row">
-                                        <div className="form-group col-md-6">
-                                            <label className="inputDK" htmlFor="inputTrinhdo">Vị trí thực tập</label>
-                                            <input type="text" className="form-control" id="inputTrinhdo" value={vitri} placeholder="Điền vị trí thực tập ..." onChange={(event) => onChangeInputSL(event, setVitri)} onBlur={() => checkdulieu(vitri, setCheckVitri)} />
-                                            <div className="invalid-feedback" style={{ display: checkVitri ? 'none' : 'block' }}>Vui lòng điền vào ô dữ liệu </div>
-                                        </div>
-                                        <div className="form-group col-md-6">
-                                            <label className="inputDK" htmlFor="inputTrinhdo">Email công ty</label>
-                                            <input type="text" className="form-control" id="inputTrinhdo" value={emailcongty} placeholder="Điền email công ty thực tập ..." onChange={(event) => onChangeInputSL(event, setEmailcongty)} onBlur={() => checkdulieu(emailcongty, setCheckEmailcongty)} />
-                                            <div className="invalid-feedback" style={{ display: checkEmailcongty ? 'none' : 'block' }}>Vui lòng điền vào ô dữ liệu </div>
-                                        </div>
-                                    </div>
+
                                     <div style={radioCty === '1' ? { display: 'none' } : { display: 'block' }}>
+                                        <div className="form-row">
+                                            <div className="form-group col-md-12">
+                                                <label className="inputDK" htmlFor="inputTrinhdo">Tên công ty thực tập</label>
+                                                <input type="text" className="form-control" id="inputTrinhdo" value={tencty} placeholder="Điền tên công ty thực tập ..." onChange={(event) => onChangeInputSL(event, setTencty)} onBlur={() => checkdulieu(tencty, setCheckTencty)} />
+                                                <div className="invalid-feedback" style={{ display: checkTencty ? 'none' : 'block' }}>Vui lòng điền vào ô dữ liệu </div>
+                                            </div>
+                                        </div>
+                                        <div className="form-row">
+                                            <div className="form-group col-md-6">
+                                                <label className="inputDK" htmlFor="inputTrinhdo">Vị trí thực tập</label>
+                                                <input type="text" className="form-control" id="inputTrinhdo" value={vitri} placeholder="Điền vị trí thực tập ..." onChange={(event) => onChangeInputSL(event, setVitri)} onBlur={() => checkdulieu(vitri, setCheckVitri)} />
+                                                <div className="invalid-feedback" style={{ display: checkVitri ? 'none' : 'block' }}>Vui lòng điền vào ô dữ liệu </div>
+                                            </div>
+                                            <div className="form-group col-md-6">
+                                                <label className="inputDK" htmlFor="inputTrinhdo">Email công ty</label>
+                                                <input type="text" className="form-control" id="inputTrinhdo" value={emailcongty} placeholder="Điền email công ty thực tập ..." onChange={(event) => onChangeInputSL(event, setEmailcongty)} onBlur={() => checkdulieu(emailcongty, setCheckEmailcongty)} />
+                                                <div className="invalid-feedback" style={{ display: checkEmailcongty ? 'none' : 'block' }}>Vui lòng điền vào ô dữ liệu </div>
+                                            </div>
+                                        </div>
                                         <div className="form-row">
                                             <div className="form-group col-md-6">
                                                 <label className="inputDK" htmlFor="inputTrinhdo">Website</label>

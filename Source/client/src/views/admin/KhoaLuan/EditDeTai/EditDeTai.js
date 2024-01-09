@@ -107,7 +107,7 @@ const EditDeTai = () => {
         let res = await fetchEditDeTai(headers, detai.MaKLTN, Detai.TenDeTai, TenDeTai, GiangVienHuongDan)
         if (res.status === true) {
             toast.success(res.message)
-            navigate(`/admin/khoaluan/${detai.MaKLTN}/detai/${detai.TenDeTai}`)
+            navigate(`/admin/khoaluan/${detai.MaKLTN}/detai/${TenDeTai}`)
             return;
         }
         if (res.status === false) {

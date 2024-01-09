@@ -23,7 +23,7 @@ const HuongDanDK = () => {
             {/* <h3>CÁCH THỨC ĐĂNG KÝ KHÓA LUẬN TỐT NGHIỆP</h3> */}
             <div className="content">
                 <ol className="alternating-colors">
-                    {BuocDK && BuocDK.length > 0 &&
+                    {BuocDK &&
                         BuocDK.map((item, index) => {
                             return (
                                 <li key={item.id}>
