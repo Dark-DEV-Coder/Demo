@@ -12,6 +12,12 @@ import { toast } from "react-toastify";
 import { useEffect, useState } from 'react';
 import { fetchAllDangKyCN, fetchDeleteDangKyCN, fetchUpdateDangKyCN } from "../GetData"
 
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+
 const csvConfig = mkConfig({
     fieldSeparator: ',',
     decimalSeparator: '.',
@@ -39,12 +45,25 @@ const TableDKiChuyenNganh = (props) => {
             SetListData_dkchuyennganh(res.data.DanhSach)
         }
     }
+
+    const [ma_xoa, setMa_xoa] = useState({})
+    const [open, setOpen] = useState(false);
+    const handleClickOpen = (row) => {
+        setOpen(true);
+        setMa_xoa(row)
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
     const handleDeleteRows = async (row) => {
         const headers = { 'x-access-token': accessToken };
         let res = await fetchDeleteDangKyCN(headers, row.original.MaDKCN)
         if (res.status === true) {
             toast.success(res.message)
             getListDangKyChuyenNganh()
+            setOpen(false);
             return;
         }
         if (res.success === false) {
@@ -134,7 +153,7 @@ const TableDKiChuyenNganh = (props) => {
                     </IconButton>
                 </Link>
 
-                <IconButton onClick={() => handleDeleteRows(row)}>
+                <IconButton onClick={() => handleClickOpen(row)}>
                     <Delete fontSize="small" sx={{ color: 'red' }} />
                 </IconButton>
             </Box >
@@ -219,7 +238,30 @@ const TableDKiChuyenNganh = (props) => {
         <>
 
             <MantineReactTable table={table} />
-
+            <Dialog
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title" style={{ color: 'red' }}>
+                    {"Xóa dữ liệu"}
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        Dữ liệu bị xóa sẽ không thể hồi phục lại.
+                    </DialogContentText>
+                    <DialogContentText id="alert-dialog-description">
+                        Bạn có chắc chắn muốn xóa dữ liệu này ?
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose} style={{ background: 'red' }}>Từ chối</Button>
+                    <Button onClick={() => handleDeleteRows(ma_xoa)} autoFocus>
+                        Đồng ý
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </>
     )
 

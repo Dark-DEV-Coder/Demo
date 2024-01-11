@@ -13,6 +13,8 @@ const AddTotNghiep = () => {
     const [NienKhoa, setNienKhoa] = useState("")
     const [FilePDF, setFilePDF] = useState("")
 
+    const [load, setLoad] = useState(false)
+
 
     const handleAddTotNghiep = async () => {
         const headers = { 'x-access-token': accessToken };
@@ -30,9 +32,12 @@ const AddTotNghiep = () => {
         value_canhbao.append("NienKhoa", NienKhoa);
         value_canhbao.append("FilePDF", FilePDF);
         let res = await fetchAddTotNghiep(headers, value_canhbao)
+        setLoad(true)
         if (res.status === true) {
-            toast.success(res.message)
-            navigate("/admin/totnghiep")
+            setTimeout(() => {
+                toast.success(res.message)
+                navigate("/admin/totnghiep")
+            }, [14000])
             return;
         }
         if (res.status === false) {
@@ -125,7 +130,7 @@ const AddTotNghiep = () => {
                     </div>
 
 
-                    <button className="btn" type="button" onClick={() => handleAddTotNghiep()}>Lưu</button>
+                    <button className="btn" type="button" onClick={() => handleAddTotNghiep()}>{load !== true ? "Lưu" : "Đang lưu ..."}</button>
                 </div>
 
 

@@ -10,7 +10,6 @@ import TabPanel from '@mui/lab/TabPanel';
 import CardNganh from "./CardNganh";
 import TableCTDKCN from "./TableCTDKCN";
 import "./SingleDkiChuyenNganh.scss"
-import TabContentTheoNganh from "./TabContentTheoNganh"
 import { useEffect, useState } from "react";
 import { fetchDetailDangKyCN, fetchDetailDSSVDangKyCN } from "../../GetData"
 import { toast } from "react-toastify";

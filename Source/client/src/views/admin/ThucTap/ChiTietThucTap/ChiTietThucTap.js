@@ -27,7 +27,6 @@ const ChiTietThucTap = () => {
     const getDetailThucTap = async () => {
         const headers = { 'x-access-token': accessToken };
         let res = await fetchDetailThucTap(headers, thuctap.MaDKTT);
-        // console.log(res)
         if (res && res.data) {
             setTenTT(res.data.Ten)
             setCongTyNgoaiDS(res.data.CongTyNgoaiDS)

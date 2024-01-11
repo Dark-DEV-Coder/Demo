@@ -47,6 +47,10 @@ const AddThucTap = () => {
             toast.error(res.message)
             return;
         }
+        if (res2.status === false) {
+            toast.error(res2.message)
+            return;
+        }
     }
 
     const onChangeInputSL = (event, SetSL) => {

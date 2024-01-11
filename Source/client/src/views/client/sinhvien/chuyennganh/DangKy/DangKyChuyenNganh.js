@@ -31,12 +31,13 @@ const DangKyChuyenNganh = () => {
     const getDetailSinhVien = async (MaSo) => {
         const headers = { 'x-access-token': accessToken };
         let res = await fetchDetailSinhVien(headers, MaSo);
-        // console.log(res)
+        console.log("SV: ", res)
         let res2 = await fetchDetailChuyenNganh(headers);
         if (res && res.data && res2 && res2.data) {
             setDKCN(res2.data)
             setMaDKCN(res2.data.MaDKCN)
             setSinhVien(res.data);
+            setChuyennganh(res.data.ChuyenNganh)
             setNganhhoc(res.data.Nganh)
             let listcn_cntt = []
             let listcn_dk = []
@@ -63,47 +64,40 @@ const DangKyChuyenNganh = () => {
         }
     }
 
+    const handleHuyDangKyCN = async () => {
+        const headers = { 'x-access-token': accessToken };
+        let MaCNganh = listChuyenNganh.filter(item => item.TenChuyenNganh === chuyennganh)[0]
+        let huyDky = await fetchHuyDkyChuyenNganh(headers, MaDKCN, SinhVien.MaSV, manganh, MaCNganh.MaChuyenNganh)
+        if (huyDky.status === true) {
+            toast.success(huyDky.message)
+            navigate("/chuyennganh/ds-sinhvien")
+            return;
+        }
+        if (huyDky.status === false) {
+            toast.error(huyDky.message)
+            return;
+        }
+    }
+
 
     const handleDangKyCN = async () => {
-        // console.log()
+        getDetailSinhVien(MaSV)
         const headers = { 'x-access-token': accessToken };
         if (!headers || !chuyennganh) {
             toast.error("Vui lòng chọn lại chuyên ngành một lần nữa !")
             return;
         }
-        if (SinhVien.ChuyenNganh === null) {
-            let res = await fetchDkyChuyenNganh(headers, MaDKCN, SinhVien.MaSV, manganh, chuyennganh)
-            // console.log("DK: ", res)
-            if (res.status === true) {
-                toast.success(res.message)
-                // navigate("/chuyennganh/ds-sinhvien")
-                return;
-            }
-            if (res.status === false) {
-                toast.error(res.message)
-                return;
-            }
+        let MaCNganh = listChuyenNganh.filter(item => item.TenChuyenNganh === chuyennganh)[0]
+        let res = await fetchDkyChuyenNganh(headers, MaDKCN, SinhVien.MaSV, manganh, MaCNganh.MaChuyenNganh)
+        // console.log("DK: ", res)
+        if (res.status === true) {
+            toast.success(res.message)
+            navigate("/chuyennganh/ds-sinhvien")
+            return;
         }
-        else {
-            console.log("CN: ", chuyennganh)
-            let huyDky = await fetchHuyDkyChuyenNganh(headers, MaDKCN, SinhVien.MaSV, manganh, chuyennganh)
-            console.log(huyDky)
-            // if (huyDky.status === true) {
-            //     setTimeout(async () => {
-            //         let res = await fetchDkyChuyenNganh(headers, MaDKCN, SinhVien.MaSV, manganh, chuyennganh)
-            //         console.log("DK: ", res)
-            //         if (res.status === true) {
-            //             toast.success(res.message)
-            //             // navigate("/chuyennganh/ds-sinhvien")
-            //             return;
-            //         }
-            //         if (res.status === false) {
-            //             toast.error(res.message)
-            //             return;
-            //         }
-            //     }, 2000)
-
-            // }
+        if (res.status === false) {
+            toast.error(res.message)
+            return;
         }
     }
 
@@ -166,12 +160,12 @@ const DangKyChuyenNganh = () => {
                                     </div>
                                     <div className="form-group col-md-6">
                                         <label className="inputSV" htmlFor="inputChuyenNganh">Chuyên Ngành</label>
-                                        <select value={chuyennganh} onChange={(event) => onChangeSelect(event, setChuyennganh)} id="inputChuyenNganh" className="form-control">
+                                        <select value={chuyennganh} onChange={(event) => onChangeSelect(event, setChuyennganh)} id="inputChuyenNganh" className="form-control" disabled={SinhVien.ChuyenNganh !== null ? true : false}>
                                             {
                                                 listChuyenNganh2 && listChuyenNganh2.length > 0 &&
                                                 listChuyenNganh2.map((item, index) => {
                                                     return (
-                                                        <option key={item.MaChuyenNganh} value={item.MaChuyenNganh}>{item.TenChuyenNganh}</option>
+                                                        <option key={item.MaChuyenNganh} value={item.TenChuyenNganh}>{item.TenChuyenNganh}</option>
                                                     )
                                                 })
                                             }
@@ -179,7 +173,8 @@ const DangKyChuyenNganh = () => {
                                     </div>
                                 </div>
                             </div>
-                            <button type="button" className="btntk btn btn-secondary" onClick={() => handleDangKyCN()} >Lưu</button>
+                            <button style={SinhVien.ChuyenNganh === null ? { display: 'block' } : { display: 'none' }} type="button" className="btntk btn btn-secondary" onClick={() => handleDangKyCN()} >Lưu</button>
+                            <button style={SinhVien.ChuyenNganh !== null ? { display: 'block' } : { display: 'none' }} type="button" className="btntk btn btn-secondary" onClick={() => handleHuyDangKyCN()} >Hủy đăng ký</button>
                         </form>
                     </div>
                 </div >
