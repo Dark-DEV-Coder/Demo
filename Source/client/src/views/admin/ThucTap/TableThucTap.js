@@ -37,6 +37,7 @@ const TableThucTap = (props) => {
     const getListThucTap = async () => {
         const headers = { 'x-access-token': accessToken };
         let res = await fetchAllThucTap(headers);
+        console.log(res)
         if (res && res.data && res.data.DanhSach) {
             setListData(res.data.DanhSach)
         }

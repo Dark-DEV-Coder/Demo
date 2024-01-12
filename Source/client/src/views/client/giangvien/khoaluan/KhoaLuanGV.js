@@ -98,15 +98,15 @@ const KhoaLuanGV = () => {
                                 <th scope="col" rowSpan="2" className="th-email">Email</th>
                                 <th scope="col" rowSpan="2">Điện thoại</th>
                                 <th scope="col" rowSpan="2">Tên đề tài</th>
-                                <th scope="col" colSpan="2">Giảng viên hướng dẫn</th>
+                                <th scope="col" colSpan="2" rowSpan="2">Giảng viên hướng dẫn</th>
                             </tr>
                             <tr>
                                 <th scope="col">Họ tên sinh viên</th>
                                 <th scope="col">Mã số sinh viên</th>
 
-                                <th scope="col" colSpan="2">
+                                {/* <th scope="col" colSpan="2">
                                     <button type="button" className="btn btn-outline-dark">Xóa tất cả</button>
-                                </th>
+                                </th> */}
 
                             </tr>
                         </thead>

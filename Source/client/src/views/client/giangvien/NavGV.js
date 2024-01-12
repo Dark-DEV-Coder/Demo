@@ -60,8 +60,8 @@ const NavGV = (props) => {
                                     <Link className="nav-link dropdown-toggle" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">KHÓA LUẬN</Link>
                                     <div className="dropdown-menu" aria-labelledby="dropdown04">
                                         <Link to="/khoaluan" className="dropdown-item" >Danh sách đề tài</Link>
-                                        <Link to="/khoaluan/ds-khoaluan" className="dropdown-item" >Khóa luận các năm</Link>
                                         <Link to="/khoaluan/ds-sinhviendky" className="dropdown-item" >Danh sách sinh viên đăng ký đề tài</Link>
+                                        <Link to="/khoaluan/ds-khoaluan" className="dropdown-item" >Khóa luận các năm</Link>
                                         <Link to="/khoaluan/dieukiendkykhoaluan" className="dropdown-item" >Điều kiện đăng ký</Link>
                                         <Link to="/khoaluan/huongdandky" className="dropdown-item" >Hướng dẫn đăng ký</Link>
                                     </div>
